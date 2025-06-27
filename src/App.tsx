@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { Container, Typography, CircularProgress, Box, CssBaseline } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { Toaster } from 'react-hot-toast';
+import { PostForm } from '@components/PostForm';
+import { PostFilter } from '@components/PostFilter';
+import { PostList } from '@components/PostList';
+import { usePosts } from '@hooks/usePosts';
 
-function App() {
+const theme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
+
+const App: React.FC = () => {
+  const { items, loading, error } = usePosts();
+  const [filter, setFilter] = useState('');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Toaster position="top-right" />
+      <Container maxWidth="md" sx={{ py: 4 }}>
+        <Typography variant="h4" component="h1" align="center" gutterBottom>
+          TCIT Blog Posts
+        </Typography>
+        <PostForm />
+        <PostFilter filter={filter} setFilter={setFilter} />
+        {loading ? (
+          <Box display="flex" justifyContent="center" mt={4}>
+            <CircularProgress />
+          </Box>
+        ) : error ? (
+          <Typography color="error" align="center" mt={4}>
+            {error}
+          </Typography>
+        ) : (
+          <PostList posts={items} filter={filter} />
+        )}
+      </Container>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
