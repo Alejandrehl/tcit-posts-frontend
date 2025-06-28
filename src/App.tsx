@@ -22,6 +22,7 @@ const App: React.FC = () => {
   const muiTheme = useMuiTheme();
   const isMobile = useMediaQuery(muiTheme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(muiTheme.breakpoints.down('md'));
+  const isDesktop = useMediaQuery(muiTheme.breakpoints.up('lg'));
 
   const renderContent = () => {
     if (loading) {
@@ -87,8 +88,12 @@ const App: React.FC = () => {
     return (
       <Box
         sx={{
-          display: 'grid',
-          gap: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: isMobile ? 3 : isTablet ? 4 : 5,
+          width: '100%',
+          maxWidth: isDesktop ? '1400px' : '100%',
+          mx: 'auto',
           animation: 'fadeIn 0.3s ease-in-out',
           '@keyframes fadeIn': {
             '0%': { opacity: 0, transform: 'translateY(20px)' },
@@ -102,7 +107,7 @@ const App: React.FC = () => {
         <Paper
           elevation={2}
           sx={{
-            p: isMobile ? 2 : 4,
+            p: isMobile ? 3 : isTablet ? 4 : 5,
             borderRadius: 3,
             animation: 'slideInUp 0.3s ease-out 0.1s both',
             '@keyframes slideInUp': {
@@ -119,9 +124,9 @@ const App: React.FC = () => {
             gutterBottom
             sx={{
               color: 'primary.main',
-              mb: 2,
+              mb: isMobile ? 2 : 3,
               fontWeight: 700,
-              fontSize: isMobile ? '1.25rem' : '1.5rem',
+              fontSize: isMobile ? '1.25rem' : isTablet ? '1.5rem' : '1.75rem',
             }}
           >
             Create New Post
@@ -133,7 +138,7 @@ const App: React.FC = () => {
           <Paper
             elevation={1}
             sx={{
-              p: isMobile ? 2 : 3,
+              p: isMobile ? 3 : isTablet ? 4 : 5,
               borderRadius: 3,
               animation: 'slideInUp 0.3s ease-out 0.2s both',
               '@keyframes slideInUp': {
@@ -150,9 +155,9 @@ const App: React.FC = () => {
               gutterBottom
               sx={{
                 color: 'text.secondary',
-                mb: 2,
+                mb: isMobile ? 2 : 3,
                 fontWeight: 600,
-                fontSize: isMobile ? '1.1rem' : '1.25rem',
+                fontSize: isMobile ? '1.1rem' : isTablet ? '1.25rem' : '1.5rem',
               }}
             >
               Search Posts ({items.length} available)
@@ -164,7 +169,7 @@ const App: React.FC = () => {
         <Paper
           elevation={1}
           sx={{
-            p: isMobile ? 2 : 4,
+            p: isMobile ? 3 : isTablet ? 4 : 5,
             borderRadius: 3,
             animation: 'slideInUp 0.3s ease-out 0.3s both',
             '@keyframes slideInUp': {
@@ -181,9 +186,9 @@ const App: React.FC = () => {
             gutterBottom
             sx={{
               color: 'primary.main',
-              mb: 2,
+              mb: isMobile ? 2 : 3,
               fontWeight: 700,
-              fontSize: isMobile ? '1.25rem' : '1.5rem',
+              fontSize: isMobile ? '1.25rem' : isTablet ? '1.5rem' : '1.75rem',
             }}
           >
             Posts ({items.length})
@@ -214,22 +219,24 @@ const App: React.FC = () => {
         }}
       />
       <Container
-        maxWidth="lg"
+        maxWidth={false}
         sx={{
-          py: isMobile ? 2 : 4,
-          px: isMobile ? 1 : 2,
+          py: isMobile ? 3 : isTablet ? 4 : 6,
+          px: isMobile ? 2 : isTablet ? 3 : 4,
           minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'flex-start',
-          gap: 3,
+          gap: isMobile ? 3 : isTablet ? 4 : 5,
         }}
       >
         <Box
           textAlign="center"
           sx={{
-            mb: isMobile ? 2 : 4,
+            mb: isMobile ? 3 : isTablet ? 4 : 6,
+            width: '100%',
+            maxWidth: isDesktop ? '800px' : '100%',
             animation: 'fadeInDown 0.5s ease-out',
             '@keyframes fadeInDown': {
               '0%': { opacity: 0, transform: 'translateY(-20px)' },
@@ -252,8 +259,9 @@ const App: React.FC = () => {
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               letterSpacing: '-0.025em',
-              fontSize: isMobile ? '2rem' : isTablet ? '2.5rem' : '3rem',
+              fontSize: isMobile ? '2rem' : isTablet ? '2.5rem' : '3.5rem',
               lineHeight: 1.2,
+              mb: isMobile ? 1 : 2,
             }}
           >
             TCIT Blog Posts
@@ -262,11 +270,11 @@ const App: React.FC = () => {
             variant="h6"
             color="text.secondary"
             sx={{
-              mt: 1,
               fontWeight: 500,
-              fontSize: isMobile ? '0.875rem' : '1rem',
+              fontSize: isMobile ? '0.875rem' : isTablet ? '1rem' : '1.125rem',
               maxWidth: '600px',
               mx: 'auto',
+              lineHeight: 1.5,
             }}
           >
             Manage your posts efficiently with a modern, accessible interface

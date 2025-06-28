@@ -10,6 +10,7 @@ interface PostFilterProps {
 export const PostFilter: React.FC<PostFilterProps> = ({ filter, setFilter }) => {
   const muiTheme = useMuiTheme();
   const isMobile = useMediaQuery(muiTheme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(muiTheme.breakpoints.down('md'));
 
   return (
     <Box
@@ -33,7 +34,11 @@ export const PostFilter: React.FC<PostFilterProps> = ({ filter, setFilter }) => 
         placeholder="Type to filter posts..."
         InputProps={{
           startAdornment: (
-            <Search size={isMobile ? 18 : 20} color="currentColor" style={{ opacity: 0.7 }} />
+            <Search
+              size={isMobile ? 18 : isTablet ? 20 : 22}
+              color="currentColor"
+              style={{ opacity: 0.7 }}
+            />
           ),
         }}
         inputProps={{

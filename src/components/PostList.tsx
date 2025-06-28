@@ -88,6 +88,7 @@ export const PostList: React.FC<PostListProps> = ({ posts = [], filter }) => {
   const deleteLoading = useAppSelector((state) => state.posts.deleteLoading);
   const muiTheme = useMuiTheme();
   const isMobile = useMediaQuery(muiTheme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(muiTheme.breakpoints.down('md'));
 
   const filteredPosts = posts.filter((post) =>
     post.name.toLowerCase().includes(filter.toLowerCase()),
@@ -121,7 +122,7 @@ export const PostList: React.FC<PostListProps> = ({ posts = [], filter }) => {
           background:
             'linear-gradient(135deg, rgba(var(--mui-palette-primary-main), 0.05) 0%, rgba(var(--mui-palette-secondary-main), 0.05) 100%)',
           borderRadius: 3,
-          p: 4,
+          p: isMobile ? 3 : isTablet ? 4 : 5,
           border: '2px dashed',
           borderColor: 'divider',
           animation: 'fadeIn 0.3s ease-in-out',
@@ -157,7 +158,7 @@ export const PostList: React.FC<PostListProps> = ({ posts = [], filter }) => {
           background:
             'linear-gradient(135deg, rgba(var(--mui-palette-primary-main), 0.05) 0%, rgba(var(--mui-palette-secondary-main), 0.05) 100%)',
           borderRadius: 3,
-          p: 4,
+          p: isMobile ? 3 : isTablet ? 4 : 5,
           border: '2px dashed',
           borderColor: 'divider',
           animation: 'fadeIn 0.3s ease-in-out',
@@ -184,7 +185,7 @@ export const PostList: React.FC<PostListProps> = ({ posts = [], filter }) => {
   return (
     <Grid
       container
-      spacing={isMobile ? 2 : 3}
+      spacing={isMobile ? 2 : isTablet ? 3 : 4}
       sx={{
         animation: 'fadeIn 0.3s ease-in-out',
         '@keyframes fadeIn': {
@@ -197,7 +198,7 @@ export const PostList: React.FC<PostListProps> = ({ posts = [], filter }) => {
       }}
     >
       {filteredPosts.map((post, index) => (
-        <Grid item xs={12} sm={6} md={4} key={post.id}>
+        <Grid item xs={12} sm={6} md={4} lg={3} key={post.id}>
           <Card
             tabIndex={0}
             aria-label={`Post: ${post.name}`}
@@ -206,6 +207,7 @@ export const PostList: React.FC<PostListProps> = ({ posts = [], filter }) => {
               position: 'relative',
               outline: 'none',
               height: '100%',
+              minHeight: isMobile ? '200px' : isTablet ? '220px' : '240px',
               display: 'flex',
               flexDirection: 'column',
               borderRadius: 3,
@@ -246,8 +248,23 @@ export const PostList: React.FC<PostListProps> = ({ posts = [], filter }) => {
               },
             }}
           >
-            <CardContent sx={{ flexGrow: 1, pb: 6, p: isMobile ? 2 : 3 }}>
-              <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
+            <CardContent
+              sx={{
+                flexGrow: 1,
+                pb: 6,
+                p: isMobile ? 2 : isTablet ? 3 : 4,
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+              }}
+            >
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="flex-start"
+                mb={2}
+                sx={{ pr: 6 }}
+              >
                 <Typography
                   variant="h6"
                   sx={{
@@ -256,7 +273,7 @@ export const PostList: React.FC<PostListProps> = ({ posts = [], filter }) => {
                     lineHeight: 1.3,
                     flex: 1,
                     pr: 1,
-                    fontSize: isMobile ? '1rem' : '1.1rem',
+                    fontSize: isMobile ? '1rem' : isTablet ? '1.1rem' : '1.25rem',
                   }}
                 >
                   {post.name}
@@ -273,6 +290,7 @@ export const PostList: React.FC<PostListProps> = ({ posts = [], filter }) => {
                     borderColor: 'divider',
                     color: 'text.secondary',
                     backgroundColor: 'action.hover',
+                    flexShrink: 0,
                   }}
                 />
               </Box>
@@ -282,11 +300,13 @@ export const PostList: React.FC<PostListProps> = ({ posts = [], filter }) => {
                 sx={{
                   lineHeight: 1.6,
                   display: '-webkit-box',
-                  WebkitLineClamp: 3,
+                  WebkitLineClamp: isMobile ? 3 : isTablet ? 4 : 5,
                   WebkitBoxOrient: 'vertical',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   fontWeight: 400,
+                  flex: 1,
+                  fontSize: isMobile ? '0.875rem' : isTablet ? '0.9rem' : '1rem',
                 }}
               >
                 {post.description}
@@ -304,8 +324,8 @@ export const PostList: React.FC<PostListProps> = ({ posts = [], filter }) => {
                 right: 12,
                 backgroundColor: 'error.main',
                 color: 'error.contrastText',
-                opacity: 0,
-                transform: 'scale(0.8)',
+                opacity: 1,
+                transform: 'scale(1)',
                 transition: 'all 0.2s ease-in-out',
                 minWidth: 44,
                 minHeight: 44,
