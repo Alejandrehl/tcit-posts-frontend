@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField, Paper } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import { useAppDispatch } from '@app/store';
 import { createPost } from '@features/posts/postsThunks';
 import { useAppSelector } from '@app/hooks';
@@ -20,43 +20,87 @@ export const PostForm: React.FC = () => {
     }
     try {
       await dispatch(createPost({ name, description })).unwrap();
-      toast.success('Post created!');
+      toast.success('Post created successfully!');
       setName('');
       setDescription('');
     } catch {
-      toast.error('Failed to create post');
+      toast.error('Error creating post');
     }
   };
 
   return (
-    <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
-      <Box component="form" onSubmit={handleSubmit} display="flex" flexDirection="column" gap={2}>
+    <Box component="form" onSubmit={handleSubmit}>
+      <Box display="flex" flexDirection="column" gap={3}>
         <TextField
-          label="Name"
+          label="Post Title"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
-          inputProps={{ 'aria-label': 'Post name' }}
+          fullWidth
+          variant="outlined"
+          placeholder="Enter your post title"
+          inputProps={{
+            'aria-label': 'Post title',
+            maxLength: 100,
+          }}
           disabled={createLoading}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              '&:hover fieldset': {
+                borderColor: '#1976d2',
+              },
+            },
+          }}
         />
         <TextField
           label="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
-          inputProps={{ 'aria-label': 'Post description' }}
+          fullWidth
+          multiline
+          rows={3}
+          variant="outlined"
+          placeholder="Describe your post content"
+          inputProps={{
+            'aria-label': 'Post description',
+            maxLength: 500,
+          }}
           disabled={createLoading}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              '&:hover fieldset': {
+                borderColor: '#1976d2',
+              },
+            },
+          }}
         />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          disabled={createLoading}
-          aria-label="Create post"
-        >
-          {createLoading ? 'Creating...' : 'Create Post'}
-        </Button>
+        <Box display="flex" justifyContent="flex-end">
+          <Button
+            type="submit"
+            variant="contained"
+            size="large"
+            disabled={createLoading}
+            aria-label="Create post"
+            sx={{
+              px: 4,
+              py: 1.5,
+              fontSize: '1.1rem',
+              fontWeight: 600,
+              borderRadius: 2,
+              textTransform: 'none',
+              boxShadow: '0 4px 12px rgba(25, 118, 210, 0.3)',
+              '&:hover': {
+                boxShadow: '0 6px 16px rgba(25, 118, 210, 0.4)',
+                transform: 'translateY(-1px)',
+              },
+              transition: 'all 0.2s ease-in-out',
+            }}
+          >
+            {createLoading ? 'Creating...' : 'Create Post'}
+          </Button>
+        </Box>
       </Box>
-    </Paper>
+    </Box>
   );
 };
