@@ -1,17 +1,10 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, { useEffect, useState, ReactNode } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { lightTheme, darkTheme } from './index';
+import { ThemeContext } from './context';
 
 type ThemeMode = 'light' | 'dark';
-
-interface ThemeContextType {
-  mode: ThemeMode;
-  toggleTheme: () => void;
-  setMode: (mode: ThemeMode) => void;
-}
-
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 interface ThemeProviderProps {
   children: ReactNode;
@@ -66,12 +59,4 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       </MuiThemeProvider>
     </ThemeContext.Provider>
   );
-};
-
-export const useTheme = (): ThemeContextType => {
-  const context = useContext(ThemeContext);
-  if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
 };

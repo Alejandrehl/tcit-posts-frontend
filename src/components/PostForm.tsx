@@ -40,7 +40,7 @@ export const PostForm: React.FC = () => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit}>
+    <Box component="form" role="form" onSubmit={handleSubmit}>
       <Box
         display="flex"
         flexDirection="column"

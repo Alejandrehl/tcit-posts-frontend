@@ -200,6 +200,7 @@ export const PostList: React.FC<PostListProps> = ({ posts = [], filter }) => {
       {filteredPosts.map((post, index) => (
         <Grid item xs={12} sm={6} md={4} lg={3} key={post.id}>
           <Card
+            role="article"
             tabIndex={0}
             aria-label={`Post: ${post.name}`}
             onKeyDown={(e) => handleKeyDown(e, () => {})}
