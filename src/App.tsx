@@ -4,53 +4,45 @@ import {
   Typography,
   CircularProgress,
   Box,
-  CssBaseline,
   Alert,
   Paper,
+  useMediaQuery,
+  useTheme as useMuiTheme,
 } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Toaster } from 'react-hot-toast';
 import { PostForm } from '@components/PostForm';
 import { PostFilter } from '@components/PostFilter';
 import { PostList } from '@components/PostList';
+import { ThemeToggle } from '@components/ThemeToggle';
 import { usePosts } from '@hooks/usePosts';
-
-const theme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-  },
-  typography: {
-    h4: {
-      fontWeight: 600,
-      color: '#1976d2',
-    },
-  },
-  components: {
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-        },
-      },
-    },
-  },
-});
 
 const App: React.FC = () => {
   const { items, loading, error } = usePosts();
   const [filter, setFilter] = useState('');
+  const muiTheme = useMuiTheme();
+  const isMobile = useMediaQuery(muiTheme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(muiTheme.breakpoints.down('md'));
 
   const renderContent = () => {
     if (loading) {
       return (
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
-          <CircularProgress size={60} />
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight="200px"
+          sx={{
+            animation: 'fadeIn 0.3s ease-in-out',
+            '@keyframes fadeIn': {
+              '0%': { opacity: 0 },
+              '100%': { opacity: 1 },
+            },
+            '@media (prefers-reduced-motion: reduce)': {
+              animation: 'none',
+            },
+          }}
+        >
+          <CircularProgress size={60} color="primary" />
         </Box>
       );
     }
@@ -62,8 +54,14 @@ const App: React.FC = () => {
           sx={{
             mt: 3,
             mb: 3,
-            '& .MuiAlert-message': {
-              fontSize: '1rem',
+            borderRadius: 3,
+            animation: 'fadeIn 0.3s ease-in-out',
+            '@keyframes fadeIn': {
+              '0%': { opacity: 0, transform: 'translateY(-10px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' },
+            },
+            '@media (prefers-reduced-motion: reduce)': {
+              animation: 'none',
             },
           }}
         >
@@ -87,76 +85,196 @@ const App: React.FC = () => {
     }
 
     return (
-      <>
-        {/* Form */}
-        <Paper elevation={2} sx={{ p: 3, mb: 3, borderRadius: 2 }}>
-          <Typography variant="h5" gutterBottom sx={{ color: '#1976d2', mb: 2 }}>
+      <Box
+        sx={{
+          display: 'grid',
+          gap: 3,
+          animation: 'fadeIn 0.3s ease-in-out',
+          '@keyframes fadeIn': {
+            '0%': { opacity: 0, transform: 'translateY(20px)' },
+            '100%': { opacity: 1, transform: 'translateY(0)' },
+          },
+          '@media (prefers-reduced-motion: reduce)': {
+            animation: 'none',
+          },
+        }}
+      >
+        <Paper
+          elevation={2}
+          sx={{
+            p: isMobile ? 2 : 4,
+            borderRadius: 3,
+            animation: 'slideInUp 0.3s ease-out 0.1s both',
+            '@keyframes slideInUp': {
+              '0%': { opacity: 0, transform: 'translateY(30px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' },
+            },
+            '@media (prefers-reduced-motion: reduce)': {
+              animation: 'none',
+            },
+          }}
+        >
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{
+              color: 'primary.main',
+              mb: 2,
+              fontWeight: 700,
+              fontSize: isMobile ? '1.25rem' : '1.5rem',
+            }}
+          >
             Create New Post
           </Typography>
           <PostForm />
         </Paper>
 
-        {/* Search bar - only if there are posts */}
         {items.length > 0 && (
-          <Paper elevation={1} sx={{ p: 2, mb: 3, borderRadius: 2 }}>
-            <Typography variant="h6" gutterBottom sx={{ color: '#666', mb: 2 }}>
+          <Paper
+            elevation={1}
+            sx={{
+              p: isMobile ? 2 : 3,
+              borderRadius: 3,
+              animation: 'slideInUp 0.3s ease-out 0.2s both',
+              '@keyframes slideInUp': {
+                '0%': { opacity: 0, transform: 'translateY(30px)' },
+                '100%': { opacity: 1, transform: 'translateY(0)' },
+              },
+              '@media (prefers-reduced-motion: reduce)': {
+                animation: 'none',
+              },
+            }}
+          >
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{
+                color: 'text.secondary',
+                mb: 2,
+                fontWeight: 600,
+                fontSize: isMobile ? '1.1rem' : '1.25rem',
+              }}
+            >
               Search Posts ({items.length} available)
             </Typography>
             <PostFilter filter={filter} setFilter={setFilter} />
           </Paper>
         )}
 
-        {/* Post list */}
-        <Paper elevation={1} sx={{ p: 3, borderRadius: 2 }}>
-          <Typography variant="h5" gutterBottom sx={{ color: '#1976d2', mb: 2 }}>
+        <Paper
+          elevation={1}
+          sx={{
+            p: isMobile ? 2 : 4,
+            borderRadius: 3,
+            animation: 'slideInUp 0.3s ease-out 0.3s both',
+            '@keyframes slideInUp': {
+              '0%': { opacity: 0, transform: 'translateY(30px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' },
+            },
+            '@media (prefers-reduced-motion: reduce)': {
+              animation: 'none',
+            },
+          }}
+        >
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{
+              color: 'primary.main',
+              mb: 2,
+              fontWeight: 700,
+              fontSize: isMobile ? '1.25rem' : '1.5rem',
+            }}
+          >
             Posts ({items.length})
           </Typography>
           <PostList posts={items} filter={filter} />
         </Paper>
-      </>
+      </Box>
     );
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <>
+      <ThemeToggle />
       <Toaster
         position="top-right"
         toastOptions={{
-          duration: 4000,
+          duration: 5000,
           style: {
-            background: '#363636',
-            color: '#fff',
+            background: 'var(--mui-palette-background-paper)',
+            color: 'var(--mui-palette-text-primary)',
+            fontWeight: 500,
+            borderRadius: 12,
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+            border: '1px solid var(--mui-palette-divider)',
+            fontSize: '0.875rem',
+            padding: '12px 16px',
           },
         }}
       />
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        {/* Main title */}
-        <Box textAlign="center" mb={4}>
+      <Container
+        maxWidth="lg"
+        sx={{
+          py: isMobile ? 2 : 4,
+          px: isMobile ? 1 : 2,
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          gap: 3,
+        }}
+      >
+        <Box
+          textAlign="center"
+          sx={{
+            mb: isMobile ? 2 : 4,
+            animation: 'fadeInDown 0.5s ease-out',
+            '@keyframes fadeInDown': {
+              '0%': { opacity: 0, transform: 'translateY(-20px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' },
+            },
+            '@media (prefers-reduced-motion: reduce)': {
+              animation: 'none',
+            },
+          }}
+        >
           <Typography
             variant="h3"
             component="h1"
             gutterBottom
             sx={{
-              fontWeight: 700,
-              background: 'linear-gradient(45deg, #1976d2 30%, #42a5f5 90%)',
+              fontWeight: 800,
+              background:
+                'linear-gradient(135deg, var(--mui-palette-primary-main) 0%, var(--mui-palette-secondary-main) 100%)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              textShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              letterSpacing: '-0.025em',
+              fontSize: isMobile ? '2rem' : isTablet ? '2.5rem' : '3rem',
+              lineHeight: 1.2,
             }}
           >
             TCIT Blog Posts
           </Typography>
-          <Typography variant="h6" color="text.secondary" sx={{ mt: 1 }}>
-            Manage your posts efficiently
+          <Typography
+            variant="h6"
+            color="text.secondary"
+            sx={{
+              mt: 1,
+              fontWeight: 500,
+              fontSize: isMobile ? '0.875rem' : '1rem',
+              maxWidth: '600px',
+              mx: 'auto',
+            }}
+          >
+            Manage your posts efficiently with a modern, accessible interface
           </Typography>
         </Box>
-
-        {/* Main content */}
         {renderContent()}
       </Container>
-    </ThemeProvider>
+    </>
   );
 };
 

@@ -14,15 +14,18 @@
     "test:coverage": "vitest --coverage",
     "test:run": "vitest run",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lighthouse": "lighthouse http://localhost:5173 --output=json --output-path=./lighthouse-report.json"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
+    "@mui/system": "^5.15.10",
     "@reduxjs/toolkit": "^2.2.1",
     "axios": "^1.7.9",
+    "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.4.1",

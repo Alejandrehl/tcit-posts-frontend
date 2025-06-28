@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  TextField,
+  InputAdornment,
+  useMediaQuery,
+  useTheme as useMuiTheme,
+} from '@mui/material';
 import { useAppDispatch } from '@app/store';
 import { createPost } from '@features/posts/postsThunks';
 import { useAppSelector } from '@app/hooks';
 import toast from 'react-hot-toast';
+import { Type, FileText, Plus } from 'lucide-react';
 
 export const PostForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const createLoading = useAppSelector((state) => state.posts.createLoading);
+  const muiTheme = useMuiTheme();
+  const isMobile = useMediaQuery(muiTheme.breakpoints.down('sm'));
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -30,7 +40,21 @@ export const PostForm: React.FC = () => {
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
-      <Box display="flex" flexDirection="column" gap={3}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        gap={isMobile ? 2 : 3}
+        sx={{
+          animation: 'fadeIn 0.3s ease-in-out',
+          '@keyframes fadeIn': {
+            '0%': { opacity: 0 },
+            '100%': { opacity: 1 },
+          },
+          '@media (prefers-reduced-motion: reduce)': {
+            animation: 'none',
+          },
+        }}
+      >
         <TextField
           label="Post Title"
           value={name}
@@ -39,6 +63,13 @@ export const PostForm: React.FC = () => {
           fullWidth
           variant="outlined"
           placeholder="Enter your post title"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Type size={isMobile ? 18 : 20} color="currentColor" style={{ opacity: 0.7 }} />
+              </InputAdornment>
+            ),
+          }}
           inputProps={{
             'aria-label': 'Post title',
             maxLength: 100,
@@ -46,8 +77,21 @@ export const PostForm: React.FC = () => {
           disabled={createLoading}
           sx={{
             '& .MuiOutlinedInput-root': {
-              '&:hover fieldset': {
-                borderColor: '#1976d2',
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                transform: 'translateY(-1px)',
+              },
+              '&.Mui-focused': {
+                transform: 'translateY(-2px)',
+              },
+              '@media (prefers-reduced-motion: reduce)': {
+                transition: 'none',
+                '&:hover': {
+                  transform: 'none',
+                },
+                '&.Mui-focused': {
+                  transform: 'none',
+                },
               },
             },
           }}
@@ -59,9 +103,16 @@ export const PostForm: React.FC = () => {
           required
           fullWidth
           multiline
-          rows={3}
+          rows={isMobile ? 2 : 3}
           variant="outlined"
           placeholder="Describe your post content"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start" sx={{ alignSelf: 'flex-start', mt: 1 }}>
+                <FileText size={isMobile ? 18 : 20} color="currentColor" style={{ opacity: 0.7 }} />
+              </InputAdornment>
+            ),
+          }}
           inputProps={{
             'aria-label': 'Post description',
             maxLength: 500,
@@ -69,8 +120,21 @@ export const PostForm: React.FC = () => {
           disabled={createLoading}
           sx={{
             '& .MuiOutlinedInput-root': {
-              '&:hover fieldset': {
-                borderColor: '#1976d2',
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                transform: 'translateY(-1px)',
+              },
+              '&.Mui-focused': {
+                transform: 'translateY(-2px)',
+              },
+              '@media (prefers-reduced-motion: reduce)': {
+                transition: 'none',
+                '&:hover': {
+                  transform: 'none',
+                },
+                '&.Mui-focused': {
+                  transform: 'none',
+                },
               },
             },
           }}
@@ -79,22 +143,36 @@ export const PostForm: React.FC = () => {
           <Button
             type="submit"
             variant="contained"
-            size="large"
+            size={isMobile ? 'medium' : 'large'}
             disabled={createLoading}
             aria-label="Create post"
+            startIcon={<Plus size={isMobile ? 18 : 20} />}
             sx={{
-              px: 4,
-              py: 1.5,
-              fontSize: '1.1rem',
+              px: isMobile ? 3 : 4,
+              py: isMobile ? 1 : 1.5,
+              fontSize: isMobile ? '0.875rem' : '1rem',
               fontWeight: 600,
               borderRadius: 2,
               textTransform: 'none',
-              boxShadow: '0 4px 12px rgba(25, 118, 210, 0.3)',
+              letterSpacing: '0.025em',
+              minHeight: 44,
+              minWidth: 44,
+              transition: 'all 0.2s ease-in-out',
               '&:hover': {
-                boxShadow: '0 6px 16px rgba(25, 118, 210, 0.4)',
                 transform: 'translateY(-1px)',
               },
-              transition: 'all 0.2s ease-in-out',
+              '&:active': {
+                transform: 'translateY(0)',
+              },
+              '@media (prefers-reduced-motion: reduce)': {
+                transition: 'none',
+                '&:hover': {
+                  transform: 'none',
+                },
+                '&:active': {
+                  transform: 'none',
+                },
+              },
             }}
           >
             {createLoading ? 'Creating...' : 'Create Post'}
