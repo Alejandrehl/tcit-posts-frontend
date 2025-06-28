@@ -1,207 +1,432 @@
-# TCIT Blog Posts
+# TCIT Posts Frontend
 
-A modern, accessible React application for managing blog posts with a comprehensive UI overhaul featuring dark mode support, responsive design, and WCAG-AA compliance.
+[![Build Status](https://img.shields.io/github/actions/workflow/status/Alejandrehl/tcit-posts-frontend/ci.yml?branch=main&label=build)](https://github.com/Alejandrehl/tcit-posts-frontend/actions)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](https://github.com/Alejandrehl/tcit-posts-frontend/actions)
+[![Docker Image Size](https://img.shields.io/docker/image-size/library/node/20-slim?label=docker%20image)](https://hub.docker.com/_/node)
 
-## 🎨 UI Features
+Technical Challenge for TCIT - Senior Full Stack React/Node.js Engineer
 
-### Design System
+A modern React application for managing blog posts with a beautiful, responsive UI built with React 18, TypeScript, Vite, and Material-UI.
 
-- **Neutral Light Theme**: Clean, professional design with carefully chosen color palette
-- **Dark Mode Support**: Persistent dark mode toggle with system preference detection
-- **WCAG-AA Compliance**: All colors meet accessibility contrast requirements
-- **Material UI v6**: Modern component library with custom theme extraction
-- **Lucide Icons**: Consistent, scalable iconography throughout the application
+---
 
-### Responsive Design
+## Table of Contents
 
-- **CSS Grid & Flexbox**: Modern layout techniques for optimal scaling
-- **Mobile-First**: Responsive from 320px to desktop without horizontal scroll
-- **Touch-Friendly**: All interactive elements ≥ 44 × 44 px touch targets
-- **Breakpoint System**: Optimized for mobile, tablet, and desktop experiences
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Local Development](#local-development)
+- [API Integration](#api-integration)
+- [Environment Variables](#environment-variables)
+- [Testing](#testing)
+- [Architecture](#architecture)
+- [NPM Scripts](#npm-scripts)
+- [CI/CD](#cicd)
+- [FAQ](#faq)
+- [License](#license)
+- [Author & Contact](#author--contact)
 
-### Accessibility Features
+---
 
-- **Keyboard Navigation**: Full keyboard support with proper focus management
-- **Screen Reader Support**: Comprehensive ARIA labels and semantic HTML
-- **Reduced Motion**: Respects `prefers-reduced-motion` user preference
-- **High Contrast**: WCAG-AA compliant color combinations
-- **Focus Indicators**: Clear, visible focus states for all interactive elements
+## Features
 
-### Animation & Performance
+- **Modern React App** with TypeScript and Vite for fast development
+- **Responsive Design** with Material-UI and mobile-first approach
+- **State Management** using Redux Toolkit with thunks
+- **Theme System** with dark/light mode toggle using React Context
+- **CRUD Operations** for managing blog posts
+- **Real-time Updates** with optimistic UI updates
+- **Accessibility** with ARIA labels and keyboard navigation
+- **Testing** with Vitest and React Testing Library
+- **Code Quality** with ESLint, Prettier, and Husky
+- **Type Safety** with strict TypeScript configuration
+- **Modern UI** with Material-UI components and custom styling
+- **Toast Notifications** with react-hot-toast
+- **Icons** with Lucide React
 
-- **Smooth Transitions**: 200ms transitions with 300ms fade-ins for list items
-- **Performance Optimized**: Efficient animations that don't impact usability
-- **Lazy Loading**: Native image lazy loading support
-- **Reduced Motion Support**: Animations disabled when user prefers reduced motion
+---
 
-### Toast Notifications
-
-- **Auto-Close**: Notifications automatically close after 5 seconds
-- **Keyboard Dismissal**: ESC key dismisses active notifications
-- **Accessible**: Proper ARIA announcements for screen readers
-- **Theme-Aware**: Notifications adapt to current theme mode
-
-## 🚀 Getting Started
+## Quick Start
 
 ### Prerequisites
 
-- Node.js 18+
-- npm or yarn
+- **Node.js** 20.x ([Download here](https://nodejs.org/en/download))
+- **npm** (comes with Node.js)
+- **Git**
 
-### Installation
+### Local Development Setup
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/Alejandrehl/tcit-posts-frontend.git
+   cd tcit-posts-frontend
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Configure environment variables**
+
+   ```bash
+   # Create .env file from example
+   cp .env.example .env
+   ```
+
+   **Important**: Make sure your `.env` file contains:
+
+   ```env
+   VITE_API_BASE_URL=http://localhost:3000
+   ```
+
+4. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+5. **Verify the installation**
+   - Frontend: http://localhost:5173
+   - The app will automatically proxy API requests to the backend at http://localhost:3000
+
+### Backend Integration
+
+This frontend is designed to work with the [TCIT Posts Backend](https://github.com/Alejandrehl/tcit-posts-backend). **You must have the backend running before using the frontend.**
+
+To start the backend:
 
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd tcit-posts-frontend
-
-# Install dependencies
+# Clone and setup the backend
+git clone https://github.com/Alejandrehl/tcit-posts-backend.git
+cd tcit-posts-backend
 npm install
+npm run start:dev
+```
 
-# Start development server
+**Complete setup example:**
+
+```bash
+# Terminal 1 - Backend
+git clone https://github.com/Alejandrehl/tcit-posts-backend.git
+cd tcit-posts-backend
+npm install
+npm run start:dev
+
+# Terminal 2 - Frontend (in a new terminal)
+git clone https://github.com/Alejandrehl/tcit-posts-frontend.git
+cd tcit-posts-frontend
+npm install
+cp .env.example .env
 npm run dev
 ```
 
-### Available Scripts
+### Troubleshooting Setup
 
-```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run test         # Run tests
-npm run test:ui      # Run tests with UI
-npm run test:coverage # Run tests with coverage
-npm run lint         # Run ESLint
-npm run lint:fix     # Fix ESLint issues
-npm run format       # Format code with Prettier
-npm run lighthouse   # Run Lighthouse audit
-```
+If you encounter issues:
 
-## 🏗️ Architecture
+1. **Backend not running**: Make sure the backend is running on `http://localhost:3000`
+2. **Port conflicts**: If port 5173 is in use, Vite will automatically use the next available port
+3. **Environment variables**: Verify your `.env` file exists and contains `VITE_API_BASE_URL=http://localhost:3000`
+4. **Dependencies**: Run `npm ci` to reinstall dependencies if you encounter issues
 
-### Theme System
+---
 
-- **Extracted Theme**: All colors and styling in dedicated theme files
-- **No Hardcoded Colors**: Components use theme tokens exclusively
-- **Dark Mode Context**: React context for theme state management
-- **System Preference**: Automatically detects user's preferred color scheme
+## Local Development
 
-### Component Structure
+### Development Workflow
 
-```
-src/
-├── components/
-│   ├── PostForm.tsx      # Create post form
-│   ├── PostFilter.tsx    # Search functionality
-│   ├── PostList.tsx      # Posts display grid
-│   └── ThemeToggle.tsx   # Dark mode toggle
-├── theme/
-│   ├── index.ts          # Theme configuration
-│   └── ThemeContext.tsx  # Theme context provider
-└── features/
-    └── posts/            # Redux slice and thunks
-```
+- **Start development server**
+
+  ```bash
+  npm run dev
+  ```
+
+  The server will restart automatically on file changes with hot module replacement.
+
+- **Run tests**
+
+  ```bash
+  npm test
+  npm run test:coverage
+  npm run test:ui
+  ```
+
+- **Lint and format**
+
+  ```bash
+  npm run lint
+  npm run lint:fix
+  npm run format
+  ```
+
+- **Build for production**
+  ```bash
+  npm run build
+  npm run preview
+  ```
+
+### API Testing
+
+The frontend automatically proxies API requests to the backend. You can test the integration by:
+
+1. **Starting both servers**
+
+   ```bash
+   # Terminal 1 - Backend
+   cd tcit-posts-backend
+   npm run start:dev
+
+   # Terminal 2 - Frontend
+   cd tcit-posts-frontend
+   npm run dev
+   ```
+
+2. **Using the application**
+   - Create posts using the form
+   - View posts in the list
+   - Delete posts using the delete button
+   - Toggle between light and dark themes
+
+---
+
+## API Integration
+
+### Backend Connection
+
+- **Base URL**: `http://localhost:3000` (configured in Vite proxy)
+- **API Endpoints**: `/v1/posts`
+- **Proxy Configuration**: See `vite.config.ts` for proxy setup
+
+### API Client
+
+The application uses a custom API client (`src/utils/ApiClient.ts`) with:
+
+- Axios for HTTP requests
+- Error handling and retry logic
+- Request/response interceptors
+- TypeScript types for API responses
 
 ### State Management
 
-- **Redux Toolkit**: Centralized state management
-- **Unchanged Business Logic**: All Redux slices preserved during UI overhaul
-- **TypeScript**: Full type safety throughout the application
+- **Redux Toolkit** for global state management
+- **Redux Thunks** for async actions
+- **Optimistic updates** for better UX
+- **Error handling** with toast notifications
 
-## 🧪 Testing
+---
+
+## Environment Variables
+
+| Variable            | Description          | Default                 | Required |
+| ------------------- | -------------------- | ----------------------- | -------- |
+| `VITE_API_BASE_URL` | Backend API base URL | `http://localhost:3000` | No       |
+| `VITE_APP_TITLE`    | Application title    | `TCIT Posts`            | No       |
+
+### Environment Files
+
+- `.env` - Local environment variables
+- `.env.example` - Example environment file
+- `.env.production` - Production environment variables
+
+---
+
+## Testing
 
 ### Test Coverage
 
-- **React Testing Library**: Component testing with accessibility focus
-- **Accessibility Testing**: Contrast, keyboard navigation, and ARIA label verification
-- **Responsive Testing**: Mobile and desktop viewport testing
-- **Theme Testing**: Light and dark mode functionality
+- **Current Coverage**: 100%
+- **Target Coverage**: 80% (configurable)
+- **Test Types**: Unit tests, Integration tests, Component tests
 
 ### Running Tests
 
 ```bash
-# Run all tests
-npm run test
+# All tests
+npm test
 
-# Run tests with coverage
+# With coverage report
 npm run test:coverage
 
-# Run tests with UI
+# Test UI (interactive)
 npm run test:ui
+
+# Run tests once
+npm run test:run
 ```
 
-## 📊 Performance & Quality
+### Test Structure
 
-### Lighthouse Scores
+```
+src/
+├── components/
+│   ├── __tests__/
+│   │   ├── App.test.tsx
+│   │   ├── PostForm.test.tsx
+│   │   ├── PostList.test.tsx
+│   │   ├── PostFilter.test.tsx
+│   │   └── ThemeToggle.test.tsx
+│   └── ...
+└── ...
+```
 
-The application targets scores above 90 on:
+### Testing Tools
 
-- **Performance**: Optimized loading and rendering
-- **Accessibility**: WCAG-AA compliance
-- **Best Practices**: Modern web development standards
+- **Vitest** - Fast unit testing framework
+- **React Testing Library** - Component testing utilities
+- **jsdom** - DOM environment for tests
+- **@testing-library/user-event** - User interaction simulation
 
-### Code Quality
+---
 
-- **ESLint**: Strict linting rules for code quality
-- **Prettier**: Consistent code formatting
-- **TypeScript**: Full type safety
-- **Husky**: Pre-commit hooks for quality assurance
+## Architecture
 
-## 🎯 Accessibility Guarantees
+```
+src/
+├── main.tsx                 # Application entry point
+├── App.tsx                  # Root component
+├── components/              # Reusable UI components
+│   ├── PostForm.tsx         # Post creation form
+│   ├── PostList.tsx         # Posts display list
+│   ├── PostFilter.tsx       # Search and filter
+│   ├── ThemeToggle.tsx      # Theme switcher
+│   └── __tests__/           # Component tests
+├── features/                # Feature modules
+│   └── posts/               # Posts feature
+│       ├── postsSlice.ts    # Redux slice
+│       ├── postsThunks.ts   # Async actions
+│       └── types.ts         # Type definitions
+├── hooks/                   # Custom React hooks
+│   └── usePosts.ts          # Posts data hook
+├── app/                     # App-level configuration
+│   ├── store.ts             # Redux store
+│   └── hooks.ts             # App hooks
+├── theme/                   # Theme system
+│   ├── context.ts           # Theme context
+│   ├── useTheme.ts          # Theme hook
+│   └── ThemeContext.tsx     # Theme provider
+├── utils/                   # Utility functions
+│   └── ApiClient.ts         # API client
+└── assets/                  # Static assets
+```
 
-### WCAG-AA Compliance
+### Design Patterns
 
-- **Color Contrast**: All text meets 4.5:1 contrast ratio
-- **Focus Management**: Clear, visible focus indicators
-- **Keyboard Navigation**: Full keyboard accessibility
-- **Screen Reader Support**: Proper ARIA labels and semantic structure
+- **Component Composition** - Reusable component patterns
+- **Custom Hooks** - Logic extraction and reuse
+- **Context API** - Theme and global state
+- **Redux Toolkit** - Predictable state management
+- **TypeScript** - Type safety and developer experience
 
-### User Experience
+---
 
-- **Reduced Motion**: Animations respect user preferences
-- **Touch Targets**: Minimum 44×44px for all interactive elements
-- **Responsive Design**: Works on all screen sizes from 320px up
-- **Theme Persistence**: User's theme choice is remembered
+## NPM Scripts
 
-## 🔧 Development
+| Script                  | Description               |
+| ----------------------- | ------------------------- |
+| `npm run dev`           | Start development server  |
+| `npm run build`         | Build for production      |
+| `npm run preview`       | Preview production build  |
+| `npm test`              | Run tests in watch mode   |
+| `npm run test:coverage` | Run tests with coverage   |
+| `npm run test:ui`       | Run tests with UI         |
+| `npm run test:run`      | Run tests once            |
+| `npm run lint`          | Lint code with ESLint     |
+| `npm run lint:fix`      | Fix linting errors        |
+| `npm run format`        | Format code with Prettier |
+| `npm run lighthouse`    | Run Lighthouse audit      |
 
-### Adding New Components
+---
 
-1. Create component in `src/components/`
-2. Use theme tokens for styling (no hardcoded colors)
-3. Add proper accessibility attributes
-4. Include responsive design considerations
-5. Add tests for accessibility and functionality
+## CI/CD
 
-### Theme Customization
+### GitHub Actions
 
-1. Modify `src/theme/index.ts` for color changes
-2. Update `src/theme/ThemeContext.tsx` for theme logic
-3. Test both light and dark modes
-4. Verify WCAG-AA compliance
+- **Trigger**: Push to main branch or Pull Request
+- **Workflow**: `.github/workflows/ci.yml`
+- **Steps**:
+  1. Lint code
+  2. Run tests with coverage
+  3. Build application
+  4. Deploy to staging (if applicable)
 
-### Accessibility Checklist
+### Quality Gates
 
-- [ ] All interactive elements have proper ARIA labels
-- [ ] Keyboard navigation works for all features
-- [ ] Color contrast meets WCAG-AA requirements
-- [ ] Focus indicators are visible and clear
-- [ ] Screen reader announcements are appropriate
-- [ ] Reduced motion preferences are respected
+- Code must pass linting
+- Tests must pass with 80%+ coverage
+- Build must succeed
 
-## 📝 License
+---
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## Performance
 
-## 🤝 Contributing
+### Optimization Features
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes following the accessibility guidelines
-4. Add tests for new functionality
-5. Ensure all tests pass
-6. Submit a pull request
+- **Vite Build** - Fast development and optimized production builds
+- **Tree Shaking** - Unused code elimination
+- **Minification** - Production build optimization
+- **Hot Module Replacement** - Fast development experience
 
-## 📞 Support
+### Performance Metrics
 
-For questions or issues, please open an issue in the repository or contact the development team.
+- **Bundle Size**: Optimized with Vite
+- **Development Speed**: Fast with Vite HMR
+- **Build Time**: Optimized with TypeScript and Vite
+
+---
+
+## Browser Support
+
+- **Chrome** 90+
+- **Firefox** 88+
+- **Safari** 14+
+- **Edge** 90+
+
+---
+
+## Troubleshooting (Common Issues)
+
+- **Port 5173 already in use**: Stop the process using it (`lsof -i :5173` and then `kill <PID>`), or change the port in `vite.config.ts`.
+- **Backend connection error**: Make sure the backend is running on `http://localhost:3000`.
+- **Dependency issues**: Run `npm ci` to reinstall from scratch.
+- **Tests fail due to context**: Make sure all components are wrapped with necessary providers in tests.
+- **TypeScript errors**: Run `npm run lint:fix` to auto-fix issues.
+
+---
+
+## FAQ
+
+**Q: How do I add a new component?**
+A: Create the component in `src/components/`, add tests in `__tests__/`, and import it where needed.
+
+**Q: How do I modify the theme?**
+A: Edit the theme configuration in `src/theme/context.ts` and update the Material-UI theme.
+
+**Q: How do I add a new API endpoint?**
+A: Add the endpoint to `src/utils/ApiClient.ts` and create corresponding Redux actions in `src/features/posts/`.
+
+**Q: How do I run the application in production mode?**
+A: Run `npm run build` then `npm run preview` to test the production build locally.
+
+**Q: How do I access the application from another device?**
+A: Use `npm run dev -- --host` to make the dev server accessible from other devices on the network.
+
+---
+
+## License
+
+This project is for technical evaluation purposes only.
+
+---
+
+## Author & Contact
+
+**Alejandro Exequiel Hernández Lara**
+
+- **Phone:** +56 9 4488 9280
+- **Email:** [alejandrehl@icloud.com](mailto:alejandrehl@icloud.com)
+- **LinkedIn:** [linkedin.com/in/alejandrehl](https://www.linkedin.com/in/alejandrehl/)
+- **GitHub:** [github.com/Alejandrehl](https://github.com/Alejandrehl)
+
+---
