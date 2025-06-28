@@ -3,8 +3,8 @@ import { apiClient } from '@utils/ApiClient';
 import { Post } from './types';
 
 export const fetchPosts = createAsyncThunk<Post[]>('posts/fetchPosts', async () => {
-  const data = await apiClient.get<{ posts: Post[] }>('/v1/posts');
-  return data.posts;
+  const data = await apiClient.get<Post[]>('/v1/posts');
+  return data;
 });
 
 export const createPost = createAsyncThunk<Post, { name: string; description: string }>(
@@ -15,7 +15,7 @@ export const createPost = createAsyncThunk<Post, { name: string; description: st
   },
 );
 
-export const deletePost = createAsyncThunk<string, string>('posts/deletePost', async (id) => {
+export const deletePost = createAsyncThunk<number, number>('posts/deletePost', async (id) => {
   await apiClient.delete(`/v1/posts/${id}`);
   return id;
 });

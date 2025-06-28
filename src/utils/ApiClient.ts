@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
-const baseURL = import.meta.env.VITE_API_BASE_URL as string;
+// Use relative URL for proxy in development
+const baseURL = import.meta.env.DEV ? '' : import.meta.env.VITE_API_BASE_URL;
 
 export class ApiClient {
   private client: AxiosInstance;
@@ -23,7 +24,13 @@ export class ApiClient {
   }
 
   delete<T>(url: string) {
-    return this.client.delete<T>(url).then((res) => res.data);
+    return this.client.delete<T>(url).then((res) => {
+      // For 204 No Content responses, return the response status
+      if (res.status === 204) {
+        return res.status;
+      }
+      return res.data;
+    });
   }
 }
 

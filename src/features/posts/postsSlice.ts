@@ -7,7 +7,7 @@ interface PostsState {
   loading: boolean;
   error: string | null;
   createLoading: boolean;
-  deleteLoading: string | null;
+  deleteLoading: number | null;
   fetched: boolean;
 }
 
@@ -58,7 +58,7 @@ const postsSlice = createSlice({
         state.deleteLoading = action.meta.arg;
         state.error = null;
       })
-      .addCase(deletePost.fulfilled, (state, action: PayloadAction<string>) => {
+      .addCase(deletePost.fulfilled, (state, action: PayloadAction<number>) => {
         state.items = state.items.filter((post: Post) => post.id !== action.payload);
         state.deleteLoading = null;
       })

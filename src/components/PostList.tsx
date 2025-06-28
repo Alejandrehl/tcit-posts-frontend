@@ -20,7 +20,7 @@ export const PostList: React.FC<PostListProps> = ({ posts = [], filter }) => {
     post.name.toLowerCase().includes(filter.toLowerCase()),
   );
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     try {
       await dispatch(deletePost(id)).unwrap();
       toast.success('Post deleted');
@@ -52,7 +52,7 @@ export const PostList: React.FC<PostListProps> = ({ posts = [], filter }) => {
                 {post.description}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                {new Date(post.createdAt).toLocaleString()}
+                ID: {post.id}
               </Typography>
             </CardContent>
             <IconButton
